@@ -25,13 +25,13 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-   
-    const product = await Product.findByPk(req.params.id, {
+
+    const productData = await Product.findByPk(req.params.id, {
       include: [{ model: Category }, { model: Tag }],
     });
 
-    if (!product) {
-      res.status(404).json({ message: 'NO USER FOUND!' });
+    if (!productData) {
+      res.status(404).json({ message: 'NO PRODUCT FOUND!' });
       return;
     }
 
@@ -51,18 +51,6 @@ router.post('/', async (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
- try {
-   //try to run this async code
-   const newProduct = await Product.create(req.body);
-
-   if(newProduct.tagIds.length) {
-
-   }
-  
- } catch(err) {
-   console.log(err)
- }
-
 
   Product.create(req.body)
     .then((product) => {
@@ -87,7 +75,7 @@ router.post('/', async (req, res) => {
 });
 
 // update product
-router.put('/:id', (req, res) => {
+router.put('/:id', a(req, res) => {
   // update product data
   Product.update(req.body, {
     where: {
@@ -128,7 +116,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
     const deleteProduct = await Product.destroy({
